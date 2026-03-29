@@ -1,0 +1,20 @@
+Tantsupaarid v2
+Koosta meetod combine, mis võtab parameetriteks kaks täisarvumassiivi — poiste pikkuste massiiv ja tüdrukute pikkuste massiiv (pikkused on antud sentimeetrites). Kumbki massiiv ei pruugi olla pikkuste järgi järjestatud. Koostada programm, mis moodustab tantsupaarid (poiss ja tüdruk) järgmise eeskirja kohaselt.
+
+Kui poisse ja tüdrukuid on võrdselt, siis moodustatakse paarid nii, et kõige pikem poiss tantsib kõige pikema tüdrukuga, pikkuselt järgmised on omavahel paaris jne.
+Kui ühe soo esindajaid on rohkem kui teise soo esindajaid, siis jäetakse sellest soost sobiv arv kõige pikemaid ilma paariliseta.
+Meetod peab tagastama kahemõõtmelise massiivi, kus on nii mitu elementi, kui tantsupaare koostati. Iga massiivi element on kahe elemendiga massiiv, kus esimene element on poisi pikkus ja teine tüdruku pikkus.
+
+Koosta main meetod, mis saab käsurealt parameetriteks poiste ja tüdrukute pikkused, koostab combine meetodi abil tantsupaarid ja prindib need ilusti välja. Käsurida on järgnevas formaadis: poiste arv, iga poisi pikkus tühikutega eraldatud, tüdrukute arv, iga tüdruku pikkus tühikutega eraldatud.
+
+Näide
+Sisend:
+
+ 3 176 179 169 2 172 167
+Väljund:
+
+ 176 ja 172
+ 169 ja 167
+NB! Käsurida (main meetodi parameeter) mitte segi ajada interaktiivse sisendiga System.in.
+
+Vihje: Massiivi võib sorteerida kasutades meetodit java.util.Arrays.sort(int[]).
