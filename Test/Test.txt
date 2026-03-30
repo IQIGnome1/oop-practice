@@ -1,0 +1,58 @@
+Library Loan System
+Note: This is a sample exam problem. The actual exam will have a shorter, simpler version that does not require everything shown here.
+
+A library lends out various items — books and magazines. Each item has a loan period determined by a color label: green label — 1 day, no label — 14 days, yellow label — 30 days, blue label — 60 days. If an item is returned late, a daily fine applies: 30- and 60-day loans — €0.05 per item per overdue day, 14-day loans — €0.15 per item per overdue day, 1-day loans — €2.00 per item per overdue day.
+The program reads a loan list, finds loans with large fines, identifies the borrower with the highest total fine, and issues warnings accordingly.
+The data file has the following format per line: item description, label, borrower name, number of days borrowed — separated by ; . For books, the description is Author Name, Title. For magazines it is Title/Year,Issue. If there is no / in the description, it is a book.
+
+Requirements
+The program must contain: abstract class Item, interface Checker, classes Magazine, Book, FineWarner, HighestFineFinder, and a main class. All instance fields in all classes must be private.
+1. Interface Checker
+Contains one method: void recordFine(String borrowerName, String itemDescription, double fineAmount).
+2. Class FineWarner implements Checker
+
+Constructor takes a double representing the maximum allowed fine.
+recordFine saves the borrower's name if their fine exceeds the limit and the name has not been saved yet.
+getWarned() returns a list of all borrower names whose fine exceeded the limit.
+
+3. Class HighestFineFinder implements Checker
+
+recordFine only keeps track of the single highest fine seen so far (to save memory, it does not store everything — just enough to issue one warning).
+sendWarning() prints the name and item description of the borrower with the highest fine.
+
+4. Abstract class Item
+
+Constructor takes: description (String), label (String), borrower name (String), days borrowed (int).
+Abstract method boolean isFromArchive() — whether the item must be retrieved from storage.
+int loanPeriod() — returns the allowed loan period in days based on the label (returns 0 for unknown labels).
+double dailyFine() — returns the fine per overdue day based on the label.
+void calculateFine(Checker checker) — if the item is overdue, calculates the fine and calls checker.recordFine(...).
+toString() — returns a formatted string with all known information about the item and its loan, including whether it needs to be retrieved from storage.
+Implements Comparable<Item>, comparing items by description.
+
+5. Class Book extends Item
+
+isFromArchive() returns true if the label is yellow or blue.
+toString() returns the parent's toString result with a note that it is a book.
+
+6. Class Magazine extends Item
+
+isFromArchive() returns true if the magazine was published in the year 2000 or earlier (parsed from the description).
+toString() returns the parent's toString result with a note that it is a magazine.
+
+7. Main class MainClass
+
+Contains a public static method List<Item> readItems(String filename) throws Exception that reads and parses the data file and returns a list of items. If file reading cannot be implemented, the list may be hardcoded (minus 2 points).
+The main method does the following:
+
+Calls readItems to load the data.
+Sorts the list using Collections.sort.
+Creates a FineWarner (limit: €0.20) and a HighestFineFinder.
+Calls calculateFine on each item passing the FineWarner; then prints all warned borrower names.
+Calls calculateFine on each item passing the HighestFineFinder; then calls sendWarning().
+Displays relevant item information and method results throughout.
+
+
+
+The data file is available at: http://kodu.ut.ee/~marinai/laenutus.txt — save it locally. The file is UTF-8 encoded.
+A program that does not compile receives no points.

@@ -1,0 +1,44 @@
+Echo Server
+Read: https://github.com/mbakhoff/sockets-template
+Create a class Server that listens for connections on port 1337. When a client connects, the server first reads an integer indicating how many messages to expect. It then reads one message (a String) and immediately sends it back. This repeats for the specified number of messages. Once all messages have been echoed, the connection is closed and the server moves on to the next client.
+Create a class Client that receives several strings as command-line arguments. The client connects to the server running on the same machine, sends the total number of messages (as an int), then sends each message one at a time — waiting for and printing the server's echo response before sending the next one.
+Use DataOutputStream and DataInputStream for all data transfer.
+Note: Server and Client are two separate programs, each with their own main method. Both can live in the same project. The easiest way to run both simultaneously is to right-click each main method and choose Debug.
+
+Echo Server v2
+Extend the echo server with the following:
+The server must be able to handle multiple clients simultaneously — one thread per socket.
+The server must support two request types:
+
+echo-request — contains a text string; the server responds with the same string.
+file-request — contains a filename; if the filename is an absolute path or the file does not exist, the server responds with an error. Otherwise, the server responds with the file's contents. Files are looked up relative to the server's working directory.
+
+The server reads the total number of requests (an int) from the client, then processes each request in order, sending a response for each before reading the next.
+The client's command-line arguments come in pairs: first either "file" or "echo", then the filename or message text. Multiple pairs are allowed, for example: file shire.txt echo rivendell file mordor.jpg.
+The client sends the total request count first, then sends each request and processes the response before sending the next. Received files should be saved to a folder called "received".
+Use a sensible protocol format. Each request should start with a number indicating its type. Each response should start with a status code (ok or error). All variable-length data should be preceded by a length prefix.
+Hints: Useful methods: Path.isAbsolute, Files.isRegularFile, Files.readAllBytes, Files.write.
+The socket should be closed by whichever thread finishes with it last. Use try-with-resources:
+javaAutoCloseable someResource; // field
+
+void method() {
+    try (someResource) {
+        someResource.use();
+    } // someResource is closed here
+}
+
+Parallel Computation
+Write a parallel processing program that reads and processes multiple input files concurrently. The input filenames (relative paths) are provided as command-line arguments. There may be a very large number of files (over 100,000).
+Each input file is a UTF-8 text file containing a very large quantity of integers. Numbers in a file may all be on one line separated by spaces, or spread across multiple lines. Every file contains at least one number. Individual files and lines may be too large to fit entirely in memory at once.
+Numbers may exceed the range of long, so the program must use BigInteger to store them.
+The program must create a number of worker threads equal to the number of available processor cores. Create one shared BlockingQueue from which all workers take filenames to process. Create a second shared BlockingQueue to which workers add the following for each completed file: the filename, the largest individual number found, and the sum of all numbers in that file.
+When processing is complete, the main thread must print:
+
+The total sum of all numbers across all files
+The value of the single largest number found, and the name of the file it came from
+The name of the file with the smallest sum of numbers
+
+The program must work correctly without any synchronized blocks.
+Note: When sending result sets through the queue, the correct data types must be preserved. Create a separate result class if needed.
+Hints: See the PahupidiPööraja code from Practice 12. A convenient way to read a file number by number is Scanner.next().
+You may optionally use ExecutorService + Future instead of threads and BlockingQueue.

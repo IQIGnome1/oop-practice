@@ -1,0 +1,7 @@
+# Valuutakursid
+USD = 1.08
+GBP = 0.86
+JPY = 161.5
+SEK = 11.23
+NOK = 11.76
+CHF = 0.95

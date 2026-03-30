@@ -1,0 +1,24 @@
+Dungeons & Dudes
+In this exercise you will build a simplified combat simulator. Create several characters capable of dueling each other. A duel continues until one character falls. Characters take turns, and during each turn a character may attack the opponent using one or more effects. Effects consume action points, which regenerate at the end of each turn. An effect may be instantaneous or last multiple turns, triggering at the start and/or end of the affected character's turns.
+Create an abstract class Dude as the base for all characters. It has the following attributes: accuracy, armor, health, and actionPoints. It also has the methods void takeTurn(Dude attackTarget) and boolean isAlive().
+Create an interface Effect with the following methods:
+
+void onHit(Dude effectTarget) — called by the attacker when the effect lands on the opponent
+void onTurnStart(Dude effectTarget) — called by the affected character at the start of each of their turns
+void onTurnEnd(Dude effectTarget) — called by the affected character at the end of each of their turns
+int requiredActionPoints()
+boolean isExpired()
+
+Create two subclasses of Dude: Fighter and Wizard. They differ in their accuracy, armor, health, and action point regeneration rate. Fighter and Wizard use different effects when attacking.
+Implement the following Effect classes (you may add more of your own):
+
+WeaponAttack — reduces the opponent's health immediately on hit
+Knockdown — sets the opponent's action points to 0 immediately on hit
+Firebolt — reduces the opponent's health at the end of their turn; expires after triggering once
+Spiderweb — reduces the opponent's action points at the start of each of their turns; expires after affecting the opponent over two of their turns
+
+Attacks can miss. Whether an attack hits is determined by the formula: d20 + attacker's accuracy ≥ opponent's armor, where d20 is a random integer in the range [1..20].
+Multiple instances of the same effect type can be active on a character simultaneously. Each Dude tracks which effects are currently applied to it, and each effect tracks its own remaining duration. For example, a Wizard can cast Spiderweb on the same opponent two turns in a row, resulting in two independent Spiderweb effects running at the same time.
+Effect-specific logic belongs in the effect's own class. The attack logic inside Dude.takeTurn must be fully generic — identical for all characters and all effects. Dude should have no knowledge of its subclasses or of any specific effects used for attacking. Subclasses know which effects they can attack with, but not which effects may be used against them. This design makes it possible to add new effects and new Dude subclasses without modifying any existing classes.
+How should Dude choose which effect to use if it knows nothing about specific effects? A good approach is to add an abstract method to Dude for effect selection, which each subclass implements in its own way.
+Figure out any missing fields and methods needed to make the game work. Write a main method that starts a fight between two characters and announces the winner. The main method creates two characters at the start, then calls takeTurn on them alternately until a winner is determined. The Dude objects must decide on their own what to do each turn. No interactive input is read during the fight.

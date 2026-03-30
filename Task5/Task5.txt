@@ -1,0 +1,28 @@
+TV Channels
+Create an interface BroadcastListener with the method void listen(String).
+Create a class Broadcaster with methods void subscribe(BroadcastListener) and void broadcast(String). Broadcaster keeps track of all BroadcastListener instances passed to it via subscribe. When broadcast is called, it forwards the given string to all registered listeners by calling their listen method.
+Create a subclass of Broadcaster called TVStation. Add a constructor that takes a list of news strings. Add a method void sendNews() that broadcasts a random item from the news list using the parent class's broadcast method.
+Create a subclass of Broadcaster called PirateStation that also implements BroadcastListener. When PirateStation receives a broadcast via listen, it immediately forwards it to all of its own subscribers.
+Create a class TV that implements BroadcastListener. The owner's name is set via the constructor. Every message that arrives is printed to System.out along with the owner's name.
+Create a test class that verifies the functionality:
+
+Create two TVStation objects — one called "National News" and one called "Fox News" — each with their own distinct list of news items.
+Create a PirateStation that receives and rebroadcasts from both stations.
+Create a TV for Kim Jong-un that listens to both Fox News and National News directly (not through the pirate channel).
+Create a TV for Kim Yong-nam that listens only to National News.
+Create a TV for Pak Pong-ju that listens only to the pirate channel (and thus receives both stations through it).
+Call sendNews() on both news stations and verify that each person hears the correct news.
+
+
+JavaFX Currency Calculator
+Build a graphical JavaFX application that converts EUR amounts to other currencies.
+
+The app reads currency names (e.g. USD) and their exchange rates from a text file called exchange-rates.txt.
+The UI contains two text fields — one for the EUR amount and one for the converted amount in the selected foreign currency. When the user types in the EUR field, the converted amount updates automatically using a property listener.
+The foreign currency field must not be editable by the user.
+The UI contains a dropdown menu for selecting the target currency. Changing the selection recalculates the converted amount.
+The UI contains a button that clears both text fields.
+The UI includes a program logo — an image drawn using javafx.scene.canvas.Canvas that contains at least three different shapes and two different colors.
+All UI elements are arranged using appropriate layout classes (BorderPane, HBox, VBox, GridPane, etc.). Do not use setLayoutX/setLayoutY or hardcoded coordinates.
+
+Hint: Use the preconfigured empty JavaFX project from the practicum as your starting point.

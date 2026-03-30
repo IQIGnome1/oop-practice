@@ -1,0 +1,126 @@
+SortedUniquePersonList
+You are given the classes Person and Test. Create a class SortedUniquePersonList that acts as a collection for storing Person objects.
+SortedUniquePersonList must guarantee the following:
+
+Each stored Person has a unique ID within the list — no two Person objects in the same list may share the same ID.
+Elements are kept in ascending order by ID — a Person with ID "1" must have a smaller index than one with ID "2".
+Internally, Person objects are stored in a Person[] array — this array must not be accessible from outside the object.
+The internal array must never be more than twice the size of the number of elements currently stored. This means you must sometimes create a new larger or smaller array and copy all references into it.
+When adding or removing elements, all subsequent elements must shift accordingly.
+
+The Person and Test classes, along with the skeleton for SortedUniquePersonList, can be found here:
+https://gist.github.com/mbakhoff/9f8aa032656c6acf7696a84cc749b02e
+Read the class and method comments carefully and make sure your implementation matches what is promised there.
+The provided Test class checks basic operations but may not catch all bugs — review your code yourself and don't rely on Test alone.
+Note: Internally you must use Person[], not ArrayList<Person> or other built-in resizable structures. The point of this exercise is to build something ArrayList-like yourself.
+Note: You should not need to call any sorting algorithm on the internal Person[]. Insert new elements directly into the correct position and shift existing elements as needed.
+
+1. Amusement Park Simulator
+In this exercise we create several amusement-park-themed classes to study park visits, ticket revenue, and the effect of age restrictions.
+1.1. Create the base code
+Create a class Visitor.
+
+Add a private instance field visitDescriptions of type List<String>. Initialize it in the constructor with a new ArrayList<String>.
+Add a void method addDescription that takes a String parameter and appends it to visitDescriptions.
+Add a method allDescriptions that returns visitDescriptions.
+
+Create a class FerrisWheel.
+
+Add a void method entertain that takes a Visitor. It adds the description "visited the ferris wheel" to the visitor.
+
+Create a class AmusementPark.
+
+Add a private field attraction of type FerrisWheel. Add a constructor that sets it via parameter.
+Add a void method startAdventure that takes a Visitor. It prints "starting adventure", calls the attraction's entertain method, then prints all of the visitor's descriptions.
+
+Create a class Test with only a main method. In main:
+
+Create a FerrisWheel instance.
+Create an AmusementPark instance using that ferris wheel.
+Create a Visitor instance.
+Send the visitor on an adventure in the park.
+
+1.2. Use an interface
+Create a class ShootingRange.
+
+Add a void method entertain taking a Visitor. Use Math.random to generate an integer in the range 0–20. Add the description "hit N targets at the shooting range" where N is the generated number.
+
+Create an interface Attraction describing a void method entertain taking a Visitor.
+Make FerrisWheel and ShootingRange implement Attraction.
+Modify AmusementPark:
+
+Change the attraction field to a List<Attraction> named attractions.
+Change the constructor to accept List<Attraction>.
+Change startAdventure so the visitor goes through all attractions in order.
+
+Modify Test: create a ShootingRange, and pass a list containing the ferris wheel and shooting range to the park.
+1.3. Adapt a stubborn class
+Add the following class to your code. Do not modify it (no adding interfaces or methods).
+javapublic class Clown {
+    private String name;
+    public Clown(String name) {
+        this.name = name;
+    }
+    public void perform(Visitor visitor) {
+        visitor.addDescription("saw a clown named " + name);
+    }
+}
+Create a class EntertainingClown that implements Attraction.
+
+Add a private Clown field and a constructor that sets it.
+Implement entertain by calling the clown's perform method.
+
+Modify Test: create a Clown with your favourite clown name, use EntertainingClown to add it to the park's attraction list.
+1.4. Add behaviour without modifying a class (Decorator pattern)
+Modify Visitor: add a private int field age with a getter and a constructor parameter.
+Create a class AgeChecker implementing Attraction.
+
+Constructor takes requiredAge (int) and delegate (Attraction). Store both as private fields.
+Implement entertain: if the visitor's age is less than requiredAge, add the description "visitor did not pass age check" and do not call the delegate. Otherwise, call the delegate's entertain.
+
+Modify Test:
+
+Wrap the shooting range in an AgeChecker with required age 10.
+Create two visitors, one aged 9 and one aged 11. Only the 11-year-old should reach the shooting range.
+
+1.5. Chains of delegates
+Modify Visitor: add a private double field costs. Add a void method addCost that increases costs by the given amount. Add a method totalCosts that returns the current value of costs.
+Modify AmusementPark to print the total costs after all attractions are visited.
+Create a class PaidAttraction implementing Attraction.
+
+Constructor takes price (double) and delegate (Attraction).
+Implement entertain: call the delegate's entertain, then add the set cost and the description "paid for visit: " + price to the visitor.
+
+Modify Test:
+
+Wrap the ferris wheel in a PaidAttraction with price 2.25.
+Wrap the shooting range in a PaidAttraction with price 1.5; pass that paid attraction as the delegate to the AgeChecker (so the chain is: age check → paid visit → shooting range).
+In a comment, describe what would happen if the order were reversed — PaidAttraction delegating to AgeChecker which then delegates to the shooting range. How would the program's behaviour change?
+
+
+2. File Tree Traversal
+Java has a built-in method Files.walkFileTree that recursively visits a given directory and all files within it, notifying a visitor object for each entry found.
+Relevant javadoc:
+
+https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/FileVisitor.html
+https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html
+https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html
+
+If the compiler complains about unhandled exceptions, add throws Exception to the method signature. (Ignore any IDE suggestion to use try-catch blocks.)
+2.1. Printing files
+Create a class FileObserver implementing FileVisitor<Path>.
+
+All FileVisitor methods return FileVisitResult. Return FileVisitResult.CONTINUE from all of them.
+In visitFile, print the filename to the console.
+
+Create a class FileTest with a main method.
+
+Read the directory path from command-line arguments. Create a Path object using Path.of (or Paths.get for older Java versions).
+Check that the path is a directory using Files.isDirectory. If not, print an error message and return.
+Create a FileObserver instance.
+Call Files.walkFileTree with the path and the observer. Verify it prints all files recursively.
+
+2.2. Sorting files
+Modify FileObserver: add a private List<String> field fileNames, initialized in the constructor. Add a getter. Change visitFile to add each visited file's path (converted to string via toString) to fileNames instead of printing it.
+Modify FileTest: after walkFileTree, sort the collected filenames and print them using Collections.sort. Verify they are in alphabetical order.
+Create a class NameComparator implementing Comparator<String>. Implement compare so that strings are sorted in reverse alphabetical order (["c", "b", "a"] instead of ["a", "b", "c"]). Pass this comparator to Collections.sort and verify the output is reversed.
