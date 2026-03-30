@@ -1,20 +1,17 @@
-Tantsupaarid v2
-Koosta meetod combine, mis võtab parameetriteks kaks täisarvumassiivi — poiste pikkuste massiiv ja tüdrukute pikkuste massiiv (pikkused on antud sentimeetrites). Kumbki massiiv ei pruugi olla pikkuste järgi järjestatud. Koostada programm, mis moodustab tantsupaarid (poiss ja tüdruk) järgmise eeskirja kohaselt.
+Dance Pairs v2
+Write a method called combine that takes two integer arrays as parameters — an array of boys' heights and an array of girls' heights (heights given in centimeters). Neither array is guaranteed to be sorted.
+Write a program that forms dance pairs (one boy and one girl) according to the following rules:
 
-Kui poisse ja tüdrukuid on võrdselt, siis moodustatakse paarid nii, et kõige pikem poiss tantsib kõige pikema tüdrukuga, pikkuselt järgmised on omavahel paaris jne.
-Kui ühe soo esindajaid on rohkem kui teise soo esindajaid, siis jäetakse sellest soost sobiv arv kõige pikemaid ilma paariliseta.
-Meetod peab tagastama kahemõõtmelise massiivi, kus on nii mitu elementi, kui tantsupaare koostati. Iga massiivi element on kahe elemendiga massiiv, kus esimene element on poisi pikkus ja teine tüdruku pikkus.
+If the number of boys and girls is equal, pairs are formed so that the tallest boy is paired with the tallest girl, the next tallest with the next tallest, and so on.
+If one gender has more members than the other, the tallest extra members of that gender are left without a partner.
 
-Koosta main meetod, mis saab käsurealt parameetriteks poiste ja tüdrukute pikkused, koostab combine meetodi abil tantsupaarid ja prindib need ilusti välja. Käsurida on järgnevas formaadis: poiste arv, iga poisi pikkus tühikutega eraldatud, tüdrukute arv, iga tüdruku pikkus tühikutega eraldatud.
-
-Näide
-Sisend:
-
- 3 176 179 169 2 172 167
-Väljund:
-
- 176 ja 172
- 169 ja 167
-NB! Käsurida (main meetodi parameeter) mitte segi ajada interaktiivse sisendiga System.in.
-
-Vihje: Massiivi võib sorteerida kasutades meetodit java.util.Arrays.sort(int[]).
+The method must return a 2D array with as many elements as there are dance pairs. Each element is a two-element array where the first element is the boy's height and the second is the girl's height.
+Write a main method that reads boys' and girls' heights from the command-line arguments, uses combine to form the dance pairs, and prints them neatly. The command-line format is: number of boys, each boy's height separated by spaces, number of girls, each girl's height separated by spaces.
+Example
+Input:
+3 176 179 169 2 172 167
+Output:
+176 and 172
+169 and 167
+Note: Command-line arguments (main method parameter) should not be confused with interactive input via System.in.
+Hint: An array can be sorted using java.util.Arrays.sort(int[]).
